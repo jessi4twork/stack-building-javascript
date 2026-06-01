@@ -26,9 +26,33 @@ const recipe3 = {
 
 recipes.push(recipe1, recipe2, recipe3);
 
-const getTotalIngredients = (ingredientsArray) => {
-  const countIngredients = ingredientsArray.length;
-  return countIngredients;
-};
+function getTotalIngredients(ingredients) {
+  return ingredients.length;
+}
 
-console.log(getTotalIngredients(recipe1.ingredients));
+function getDifficultyLevel(cookingTime) {
+  if (cookingTime <= 30) {
+    return "easy";
+  } else if (cookingTime <= 60) {
+    return "medium";
+  } else {
+    return "hard";
+  }
+}
+
+const recipe1TotalIngredients = getTotalIngredients(recipe1.ingredients);
+console.log(recipe1TotalIngredients);
+
+const recipe1DifficultyLevel = getDifficultyLevel(recipe1.cookingTime);
+console.log(recipe1DifficultyLevel);
+
+recipe1.totalIngredients = getTotalIngredients(recipe1.ingredients);
+recipe1.difficultyLevel = getDifficultyLevel(recipe1.cookingTime);
+
+recipe2.totalIngredients = getTotalIngredients(recipe2.ingredients);
+recipe2.difficultyLevel = getDifficultyLevel(recipe2.cookingTime);
+
+recipe3.totalIngredients = getTotalIngredients(recipe3.ingredients);
+recipe3.difficultyLevel = getDifficultyLevel(recipe3.cookingTime);
+
+console.log(recipes);
