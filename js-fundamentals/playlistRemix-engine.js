@@ -89,4 +89,68 @@ function scoreTracks (tracks) {
   return scoredList;
 }
 
-//TO BE CONTINUED STORY 4
+function dedupeTracks(tracks) {
+  if (!Array.isArray(tracks)) {
+    return [];
+  }
+
+  const seenIds = new Set();
+
+  return tracks.filter(track => {
+    if (seenIds.has(track.trackId)) {
+      return false;
+    }
+    seenIds.add(track.trackId);
+    return true;
+  })
+}
+
+function enforceArtistQuota(tracks, maxQuota) {
+  if (!Array.isArray(tracks)) {
+    return [];
+  }
+
+  const artistCounts = {};
+
+  return tracks.filter(track => {
+    const artist = track.artist;
+
+    if (!artistCounts[artist]) {
+      artistCounts[artist] = 0;
+    }
+
+    if (artistCounts[artist] >= maxQuota) {
+      return false;
+    }
+
+    artistCounts[artist]++;
+    return true;
+  });
+}
+
+function buildSchedule(tracks) {
+  if (!Array.isArray(tracks)) {
+    return [];
+  }
+
+  return tracks.map((track, index) => {
+    return {
+      slot: index + 1,
+      trackId: track.trackId
+    };
+  });
+}
+
+function remixPlaylist(playlists, maxQuota) {
+  const flat = flattenPlaylists(playlists);
+
+  const scored = scoreTracks(flat);
+
+  const deduped = dedupeTracks(scored);
+
+  const quota = enforceArtistQuota(deduped, maxQuota);
+
+  const final = buildSchedule(quota);
+
+  return final;
+}
